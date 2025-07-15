@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
@@ -16,7 +15,7 @@ model User {
   name      String?
   createdAt DateTime @default(now())
 
-  boards    Board[]
+  boards Board[]
 }
 
 model Board {
@@ -36,17 +35,28 @@ model Column {
   order     Int
   createdAt DateTime @default(now())
 
-  cards     Card[]   
+  cards Card[]
 }
-
 
 model Card {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   title     String
   columnId  Int
-  column    Column   @relation(fields: [columnId], references: [id])
+  column    Column    @relation(fields: [columnId], references: [id])
   order     Int
-  createdAt DateTime @default(now())
+  color     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  comments  Comment[]
 }
 
 
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  text      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  card      Card     @relation(fields: [cardId], references: [id])
+  cardId    Int
+}

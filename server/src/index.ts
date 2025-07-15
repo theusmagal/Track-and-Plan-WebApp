@@ -1,9 +1,10 @@
 import express from 'express';
 import cors from 'cors';
-import registerRouter from './routes/register.route'; // ✅ matches file name
+import registerRouter from './routes/register.route'; 
 import boardRouter from './routes/board.route';
 import columnRouter from './routes/column.route';
 import cardRouter from './routes/card.route';
+import commentRouter from './routes/comment.route';
 
 const app = express();
 
@@ -14,7 +15,7 @@ app.use('/api/auth', registerRouter);
 app.use('/api/boards', boardRouter);
 app.use('/api/columns', columnRouter);
 app.use('/api/cards', cardRouter);
-
+app.use('/api/comments', commentRouter);
 
 
 app.listen(3001, () => {

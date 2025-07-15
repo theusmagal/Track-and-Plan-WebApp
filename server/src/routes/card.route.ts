@@ -18,7 +18,7 @@ cardRouter.get('/:columnId', authMiddleware, (async (req, res) => {
 
 // Create a card in a column
 cardRouter.post('/', authMiddleware, (async (req, res) => {
-  const { title, columnId, order } = req.body;
+  const { title, columnId, order, color } = req.body;
 
   if (!title || !columnId) {
     return res.status(400).json({ error: 'Title and columnId are required' });
@@ -29,18 +29,19 @@ cardRouter.post('/', authMiddleware, (async (req, res) => {
       title,
       columnId,
       order,
+      color, // ✅ support color on create
     },
   });
 
   res.status(201).json(card);
 }) as express.RequestHandler);
 
-// Update a card (title, columnId, and/or order)
+// Update a card (title, columnId, order, and/or color)
 cardRouter.put('/:id', authMiddleware, (async (req, res) => {
   const cardId = Number(req.params.id);
-  const { title, columnId, order } = req.body;
+  const { title, columnId, order, color } = req.body;
 
-  if (!title && !columnId && order === undefined) {
+  if (!title && !columnId && order === undefined && !color) {
     return res.status(400).json({ error: 'No fields provided to update' });
   }
 
@@ -50,6 +51,7 @@ cardRouter.put('/:id', authMiddleware, (async (req, res) => {
       ...(title && { title }),
       ...(columnId && { columnId }),
       ...(order !== undefined && { order }),
+      ...(color && { color }), // ✅ support color update
     },
   });
 
@@ -58,13 +60,13 @@ cardRouter.put('/:id', authMiddleware, (async (req, res) => {
 
 // Reorder multiple cards
 cardRouter.patch('/reorder', authMiddleware, (async (req, res) => {
-  const { cards } = req.body; // expects [{ id: number, order: number }, ...]
+  const { cards } = req.body; // expects [{ id, order, columnId }]
 
   const updates = await Promise.all(
-    cards.map(({ id, order }: { id: number; order: number }) =>
+    cards.map(({ id, order, columnId }: { id: number; order: number; columnId: number }) =>
       prisma.card.update({
         where: { id },
-        data: { order },
+        data: { order, columnId },
       })
     )
   );
