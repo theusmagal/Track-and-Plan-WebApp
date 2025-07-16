@@ -17,7 +17,6 @@ app.use('/api/columns', columnRouter);
 app.use('/api/cards', cardRouter);
 app.use('/api/comments', commentRouter);
 
-
 app.listen(3001, () => {
   console.log('Server is running on http://localhost:3001');
 });

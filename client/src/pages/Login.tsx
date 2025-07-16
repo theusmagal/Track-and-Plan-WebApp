@@ -20,7 +20,6 @@ function Login() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    console.log('form submitted');
 
     try {
       const res = await fetch('http://localhost:3001/api/auth/login', {
@@ -36,8 +35,9 @@ function Login() {
       }
 
       localStorage.setItem('token', data.token);
-      setTimeout(() => navigate('/dashboard'), 50);
 
+      // Wait until token is confirmed set
+      setTimeout(() => navigate('/dashboard'), 100);
     } catch (err) {
       console.error('Login error:', err);
       setError('Something went wrong.');
