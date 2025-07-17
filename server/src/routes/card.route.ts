@@ -29,14 +29,14 @@ cardRouter.post('/', authMiddleware, (async (req, res) => {
       title,
       columnId,
       order,
-      color, // ✅ support color on create
+      color,
     },
   });
 
   res.status(201).json(card);
 }) as express.RequestHandler);
 
-// Update a card (title, columnId, order, and/or color)
+// Update a card
 cardRouter.put('/:id', authMiddleware, (async (req, res) => {
   const cardId = Number(req.params.id);
   const { title, columnId, order, color } = req.body;
@@ -51,7 +51,7 @@ cardRouter.put('/:id', authMiddleware, (async (req, res) => {
       ...(title && { title }),
       ...(columnId && { columnId }),
       ...(order !== undefined && { order }),
-      ...(color && { color }), // ✅ support color update
+      ...(color && { color }),
     },
   });
 
@@ -74,7 +74,7 @@ cardRouter.patch('/reorder', authMiddleware, (async (req, res) => {
   res.json({ message: 'Cards reordered', updated: updates });
 }) as express.RequestHandler);
 
-// Delete a card
+// Delete a card (comments are deleted automatically via cascade)
 cardRouter.delete('/:id', authMiddleware, (async (req, res) => {
   const cardId = Number(req.params.id);
 

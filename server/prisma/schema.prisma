@@ -42,7 +42,7 @@ model Card {
   id        Int       @id @default(autoincrement())
   title     String
   columnId  Int
-  column    Column    @relation(fields: [columnId], references: [id])
+  column    Column    @relation(fields: [columnId], references: [id], onDelete: Cascade)
   order     Int
   color     String?
   createdAt DateTime  @default(now())
@@ -50,13 +50,11 @@ model Card {
   comments  Comment[]
 }
 
-
-
 model Comment {
   id        Int      @id @default(autoincrement())
   text      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  card      Card     @relation(fields: [cardId], references: [id])
   cardId    Int
+  card      Card     @relation(fields: [cardId], references: [id], onDelete: Cascade)
 }

@@ -35,9 +35,8 @@ function Login() {
       }
 
       localStorage.setItem('token', data.token);
+      navigate('/dashboard');
 
-      // Wait until token is confirmed set
-      setTimeout(() => navigate('/dashboard'), 100);
     } catch (err) {
       console.error('Login error:', err);
       setError('Something went wrong.');

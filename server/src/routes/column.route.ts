@@ -26,7 +26,7 @@ columnRouter.get('/:boardId', authMiddleware, async (req: AuthenticatedRequest, 
             order: true,
             createdAt: true,
             updatedAt: true,
-            color: true, // ✅ Added this line to include color
+            color: true,
           },
         },
       },
@@ -63,7 +63,7 @@ columnRouter.post('/', authMiddleware, async (req: AuthenticatedRequest, res: Re
   }
 });
 
-// Delete a column
+// Delete a column (cards + comments auto-deleted via cascade)
 columnRouter.delete('/:id', authMiddleware, async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   const columnId = Number(req.params.id);
 
