@@ -1,0 +1,7 @@
+{
+  "build": {
+    "root": "server",
+    "buildCommand": "npm install && npx prisma generate && npx prisma db push && npm run build",
+    "startCommand": "npm run start"
+  }
+}
