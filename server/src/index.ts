@@ -1,36 +1,36 @@
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import registerRouter from './routes/register.route'; 
 import boardRouter from './routes/board.route';
 import columnRouter from './routes/column.route';
 import cardRouter from './routes/card.route';
 import commentRouter from './routes/comment.route';
 
-dotenv.config();
-
 const app = express();
 
-// ✅ Allow CORS from Vercel and localhost
+// ✅ CORS setup
 const allowedOrigins = [
   'https://track-and-plan-web-2xbngdqfk.vercel.app',
-  'http://localhost:5173'
+  'http://localhost:5173',
 ];
 
-app.use(cors({
+const corsOptions: cors.CorsOptions = {
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS"));
+      callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true
-}));
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
 
+app.use(cors(corsOptions)); // ✅ Use custom CORS config
 app.use(express.json());
 
-// Routes
+// ✅ Routes
 app.use('/api/auth', registerRouter);
 app.use('/api/boards', boardRouter);
 app.use('/api/columns', columnRouter);
