@@ -1,7 +1,8 @@
 import app from './index';
 
-const PORT = Number(process.env.PORT) || 3001;
+// Railway injects this, or use 3001 for local dev
+const PORT = process.env.PORT || 3001;
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`✅ Server running at http://localhost:${PORT}`);
+app.listen(PORT, () => {
+  console.log(`✅ Server running on port ${PORT}`);
 });
