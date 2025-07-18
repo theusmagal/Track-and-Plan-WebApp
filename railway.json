@@ -1,7 +1,9 @@
 {
   "build": {
-    "root": "server",
-    "buildCommand": "npm install && npx prisma generate && npx prisma db push && npm run build",
-    "startCommand": "npm run start"
+    "builder": "NIXPACKS",
+    "buildCommand": "cd server && npm install && npm run build && npx prisma generate && npx prisma db push"
+  },
+  "deploy": {
+    "startCommand": "cd server && npm start"
   }
 }
