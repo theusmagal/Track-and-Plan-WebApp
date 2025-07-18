@@ -1,7 +1,10 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// No __dirname or path module used here
+// Vercel-friendly config – no Node imports
 export default defineConfig({
   plugins: [react()],
+  build: {
+    outDir: 'dist',
+  },
 });
