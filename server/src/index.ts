@@ -14,8 +14,8 @@ const app = express();
 
 // ✅ CORS configuration allowing Vercel and localhost frontend
 const allowedOrigins = [
-  'https://track-and-plan-web-app.vercel.app',
-  'http://localhost:5173',
+  'https://track-and-plan-web-nl2xbtkoi.vercel.app',  // your new Vercel deployment
+  'http://localhost:5173'
 ];
 
 app.use(cors({
