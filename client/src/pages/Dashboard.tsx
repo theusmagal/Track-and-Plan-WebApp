@@ -5,6 +5,8 @@ import Column from '../components/Column';
 import BoardSelector from '../components/BoardSelector';
 import type { Column as ColumnType } from '../types';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function Dashboard() {
   const [columns, setColumns] = useState<ColumnType[]>([]);
   const [selectedBoardId, setSelectedBoardId] = useState<number | null>(null);
@@ -21,7 +23,7 @@ function Dashboard() {
 
   const fetchBoards = async () => {
     try {
-      const res = await fetch('http://localhost:3001/api/boards', {
+      const res = await fetch(`${API_URL}/api/boards`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -38,7 +40,7 @@ function Dashboard() {
   const fetchColumns = async () => {
     if (!selectedBoardId) return;
     try {
-      const res = await fetch(`http://localhost:3001/api/columns/${selectedBoardId}`, {
+      const res = await fetch(`${API_URL}/api/columns/${selectedBoardId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -54,7 +56,7 @@ function Dashboard() {
     if (!newColumnTitle.trim() || selectedBoardId === null) return;
 
     try {
-      await fetch('http://localhost:3001/api/columns', {
+      await fetch(`${API_URL}/api/columns`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -68,7 +70,6 @@ function Dashboard() {
       });
       setNewColumnTitle('');
       fetchColumns();
-      
     } catch (err) {
       console.error('Error adding column:', err);
     }
@@ -78,7 +79,7 @@ function Dashboard() {
     if (!newBoardTitle.trim()) return;
 
     try {
-      const res = await fetch('http://localhost:3001/api/boards', {
+      const res = await fetch(`${API_URL}/api/boards`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -99,7 +100,7 @@ function Dashboard() {
     if (!selectedBoardId || !confirm('Are you sure you want to delete this board?')) return;
 
     try {
-      await fetch(`http://localhost:3001/api/boards/${selectedBoardId}`, {
+      await fetch(`${API_URL}/api/boards/${selectedBoardId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -123,7 +124,7 @@ function Dashboard() {
       reordered.splice(destination.index, 0, moved);
       setColumns(reordered);
 
-      await fetch('http://localhost:3001/api/columns/reorder', {
+      await fetch(`${API_URL}/api/columns/reorder`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -166,7 +167,7 @@ function Dashboard() {
       }))
     );
 
-    await fetch('http://localhost:3001/api/cards/reorder', {
+    await fetch(`${API_URL}/api/cards/reorder`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

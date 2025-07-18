@@ -10,6 +10,8 @@ interface Props {
   setSelectedBoardId: (id: number) => void;
 }
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function BoardSelector({ selectedBoardId, setSelectedBoardId }: Props) {
   const [boards, setBoards] = useState<Board[]>([]);
   const [editingBoardId, setEditingBoardId] = useState<number | null>(null);
@@ -17,7 +19,7 @@ function BoardSelector({ selectedBoardId, setSelectedBoardId }: Props) {
 
   useEffect(() => {
     const fetchBoards = async () => {
-      const res = await fetch('http://localhost:3001/api/boards', {
+      const res = await fetch(`${API_URL}/api/boards`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -42,7 +44,7 @@ function BoardSelector({ selectedBoardId, setSelectedBoardId }: Props) {
     if (!editedTitle.trim()) return;
 
     try {
-      await fetch(`http://localhost:3001/api/boards/${editingBoardId}`, {
+      await fetch(`${API_URL}/api/boards/${editingBoardId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

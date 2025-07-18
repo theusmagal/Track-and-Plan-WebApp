@@ -12,13 +12,15 @@ interface Props {
   cardId: number;
 }
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function CommentSection({ cardId }: Props) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState('');
 
   const fetchComments = async () => {
     try {
-      const res = await fetch(`http://localhost:3001/api/comments/${cardId}`, {
+      const res = await fetch(`${API_URL}/api/comments/${cardId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -33,7 +35,7 @@ function CommentSection({ cardId }: Props) {
   const addComment = async () => {
     if (!newComment.trim()) return;
     try {
-      await fetch(`http://localhost:3001/api/comments`, {
+      await fetch(`${API_URL}/api/comments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -50,7 +52,7 @@ function CommentSection({ cardId }: Props) {
 
   const deleteComment = async (id: number) => {
     try {
-      await fetch(`http://localhost:3001/api/comments/${id}`, {
+      await fetch(`${API_URL}/api/comments/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -64,7 +66,7 @@ function CommentSection({ cardId }: Props) {
 
   const updateComment = async (id: number, newText: string) => {
     try {
-      await fetch(`http://localhost:3001/api/comments/${id}`, {
+      await fetch(`${API_URL}/api/comments/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -116,7 +118,6 @@ function CommentSection({ cardId }: Props) {
         </div>
       ))}
 
-      {/* Input with subtle Add icon */}
       <div className="mt-2 flex items-center gap-2">
         <input
           type="text"

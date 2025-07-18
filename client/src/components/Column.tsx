@@ -9,6 +9,8 @@ interface Props {
   onLocalCardColorChange: (cardId: number, newColor: string) => void;
 }
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function Column({ column, refreshColumns, onLocalCardColorChange }: Props) {
   const [newTitle, setNewTitle] = useState('');
   const [isEditingTitle, setIsEditingTitle] = useState(false);
@@ -16,7 +18,7 @@ function Column({ column, refreshColumns, onLocalCardColorChange }: Props) {
 
   const updateCardTitle = async (cardId: number, newTitle: string) => {
     try {
-      await fetch(`http://localhost:3001/api/cards/${cardId}`, {
+      await fetch(`${API_URL}/api/cards/${cardId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -32,7 +34,7 @@ function Column({ column, refreshColumns, onLocalCardColorChange }: Props) {
 
   const updateCardColor = async (cardId: number, newColor: string) => {
     try {
-      await fetch(`http://localhost:3001/api/cards/${cardId}`, {
+      await fetch(`${API_URL}/api/cards/${cardId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -40,7 +42,7 @@ function Column({ column, refreshColumns, onLocalCardColorChange }: Props) {
         },
         body: JSON.stringify({ color: newColor }),
       });
-      onLocalCardColorChange(cardId, newColor); // update immediately
+      onLocalCardColorChange(cardId, newColor);
     } catch (err) {
       console.error('Error updating card color:', err);
     }
@@ -48,7 +50,7 @@ function Column({ column, refreshColumns, onLocalCardColorChange }: Props) {
 
   const deleteCard = async (cardId: number) => {
     try {
-      await fetch(`http://localhost:3001/api/cards/${cardId}`, {
+      await fetch(`${API_URL}/api/cards/${cardId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -64,7 +66,7 @@ function Column({ column, refreshColumns, onLocalCardColorChange }: Props) {
     if (!newTitle.trim()) return;
 
     try {
-      await fetch('http://localhost:3001/api/cards', {
+      await fetch(`${API_URL}/api/cards`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -87,7 +89,7 @@ function Column({ column, refreshColumns, onLocalCardColorChange }: Props) {
   const updateColumnTitle = async () => {
     if (editedTitle !== column.title) {
       try {
-        await fetch(`http://localhost:3001/api/columns/${column.id}`, {
+        await fetch(`${API_URL}/api/columns/${column.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -108,7 +110,7 @@ function Column({ column, refreshColumns, onLocalCardColorChange }: Props) {
     if (!confirmed) return;
 
     try {
-      await fetch(`http://localhost:3001/api/columns/${column.id}`, {
+      await fetch(`${API_URL}/api/columns/${column.id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
