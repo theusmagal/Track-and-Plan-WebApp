@@ -12,7 +12,7 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin: 'https://track-and-plan-webapp-a98wad7ab.vercel.app',
+  origin: 'https://track-and-plan-web-app.vercel.app',
   credentials: true,
 }));
 
