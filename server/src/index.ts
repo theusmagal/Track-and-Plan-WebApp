@@ -10,6 +10,7 @@ import commentRouter from './routes/comment.route';
 dotenv.config();
 
 const app = express();
+app.set('trust proxy', true); // Add this line for Railway/Vercel
 
 app.use(cors({
   origin: ['https://track-and-plan-web-app.vercel.app'],
