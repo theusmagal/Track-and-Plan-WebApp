@@ -1,5 +1,5 @@
 {
-  "proxies": [
+  "rewrites": [
     {
       "source": "/api/:match*",
       "destination": "https://track-and-plan-webapp-production.up.railway.app/api/:match*"
