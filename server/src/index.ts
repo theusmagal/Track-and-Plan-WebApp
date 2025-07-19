@@ -15,7 +15,6 @@ app.use(cors({
   origin: ['https://track-and-plan-web-app.vercel.app'],
   credentials: true,
 }));
-app.options('*', cors());
 
 app.use(express.json());
 
