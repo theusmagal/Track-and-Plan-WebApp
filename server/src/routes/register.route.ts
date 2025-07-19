@@ -77,4 +77,9 @@ registerRouter.get(
   }) as express.RequestHandler
 );
 
+registerRouter.get('/test', (req: Request, res: Response) => {
+  res.json({ message: 'Backend is working!' });
+});
+
+
 export default registerRouter;
