@@ -17,7 +17,6 @@ app.use((0, cors_1.default)({
     origin: 'https://track-and-plan-web-app.vercel.app',
     credentials: true,
 }));
-app.options('*', (0, cors_1.default)());
 app.use(express_1.default.json());
 // API routes
 app.use('/api/auth', register_route_1.default);
