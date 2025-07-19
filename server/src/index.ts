@@ -27,4 +27,8 @@ app.use('/api/columns', columnRouter);
 app.use('/api/cards', cardRouter);
 app.use('/api/comments', commentRouter);
 
+app.use((req, res) => {
+  res.status(404).json({ error: 'Not found' });
+});
+
 export default app;
