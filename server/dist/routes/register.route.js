@@ -64,4 +64,7 @@ registerRouter.get('/me', auth_1.authMiddleware, ((req, res) => {
         userId: (_a = req.user) === null || _a === void 0 ? void 0 : _a.userId,
     });
 }));
+registerRouter.get('/test', (req, res) => {
+    res.json({ message: 'Backend is working!' });
+});
 exports.default = registerRouter;

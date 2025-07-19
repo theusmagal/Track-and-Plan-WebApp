@@ -13,8 +13,9 @@ const card_route_1 = __importDefault(require("./routes/card.route"));
 const comment_route_1 = __importDefault(require("./routes/comment.route"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
+app.set('trust proxy', true); // Add this line for Railway/Vercel
 app.use((0, cors_1.default)({
-    origin: 'https://track-and-plan-web-app.vercel.app',
+    origin: ['https://track-and-plan-web-app.vercel.app'],
     credentials: true,
 }));
 app.use(express_1.default.json());
