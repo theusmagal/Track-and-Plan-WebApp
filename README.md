@@ -30,16 +30,16 @@ safety.
 
 Key Features
 
-• User registration and login – hashed password storage
-• JWT – authentication with protected routes
-• User can create, edit and delete multiple boards
-• Add, edit, delete and reorder columns and cards
-• Drag and drop support for columns and cards
-• Inline editing of columns titles and boards.
-• Timestemps display for cards
-• Each card can be commented. Comments can be edited and deleted
-• Color customization for cards and columns
-• Responsive UI for mobile and desktop
+- User registration and login – hashed password storage
+- JWT – authentication with protected routes
+- User can create, edit and delete multiple boards
+- Add, edit, delete and reorder columns and cards
+- Drag and drop support for columns and cards
+- Inline editing of columns titles and boards.
+- Timestemps display for cards
+- Each card can be commented. Comments can be edited and deleted
+- Color customization for cards and columns
+- Responsive UI for mobile and desktop
 
 Installation and Setup (local)
 
@@ -49,13 +49,13 @@ npm install
 
 Main Packages installed:
 
-• express – Rest Api framework
-• Typescript – Static typing
-• Ts-node-dev – dev server with live reload
-• Prisma – ORM for PosgreSQL
-• @prisma/client – Prisma client runtime
-• Jsonwebtoken – Creating and verifying tokens
-• Dotenv – For loading env variables from .env
+- express – Rest Api framework
+- Typescript – Static typing
+- Ts-node-dev – dev server with live reload
+- Prisma – ORM for PosgreSQL
+- @prisma/client – Prisma client runtime
+- Jsonwebtoken – Creating and verifying tokens
+- Dotenv – For loading env variables from .env
 
 Prisma installation and setup:
 npx prisma init
@@ -78,11 +78,11 @@ DATABASE_URL=your_railway_postgres_url
 JWT_SECRET=your_secret_key
 
 Main packages installed:
-• React, react-dom and vite – Frontend framework and tools
-• TypeScript – For static typing
-• @hello-pangea/dnd – Drag and drop itens
-• Tailwindcss, postcss and autoprefixer – For styling and responsive webpage
-
+- React, react-dom and vite – Frontend framework and tools
+- TypeScript – For static typing
+- @hello-pangea/dnd – Drag and drop itens
+- Tailwindcss, postcss and autoprefixer – For styling and responsive webpage
+  
 User Manual
 
 1. Register: Create account using name, email and password
