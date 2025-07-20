@@ -10,23 +10,23 @@ him/her to track information and plan the future!
 Techologies Used
 
 • Front-End:
-React and TypeScript: Used to build a dynamic page.
-Tailwind CSS: For fast, precise and mobile first styling without writing custom CSS.
-@hello-pangea/dnd: A React library for state management and drag and drop. It takes
+- React and TypeScript: Used to build a dynamic page.
+- Tailwind CSS: For fast, precise and mobile first styling without writing custom CSS.
+- @hello-pangea/dnd: A React library for state management and drag and drop. It takes
 care of the movement between cards and columns for a smooth control.
 
 • Back-End:
-Node.js, Express and TypeScript: A server environment with Express to create REST
+- Node.js, Express and TypeScript: A server environment with Express to create REST
 API routes. TypeScript was used to ensure safety in routes logics and middleware.
-PostgreSQL / Prisma ORM (hosted on Railway cloud platform): Realiable SQL
+- PostgreSQL / Prisma ORM (hosted on Railway cloud platform): Realiable SQL
 based relational database. It is ideal for applications like a Kanban board where data
 needs to be consistently maintained.
-Prisma ORM was chosen for easy integration with TypeScript, making it good to work
+- Prisma ORM was chosen for easy integration with TypeScript, making it good to work
 with database. Data is sent as JSON from the frontend and Prisma handles all the
 reading and writing in database converting it to SQL queries for good communication.
-JSON Web Tokens JWT: Secure authentication, sending signed tokens to ensure
+- JSON Web Tokens JWT: Secure authentication, sending signed tokens to ensure
 safety.
-Dotenv: Used for environment/variables configuration.
+- Dotenv: Used for environment/variables configuration.
 
 Key Features
 
