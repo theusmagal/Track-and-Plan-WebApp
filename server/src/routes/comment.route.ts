@@ -14,7 +14,7 @@ commentRouter.get('/:cardId', authMiddleware, async (req: AuthenticatedRequest, 
   res.json(comments);
 });
 
-// Add new comment
+//add new comment
 commentRouter.post('/', authMiddleware, async (req: AuthenticatedRequest, res: Response) => {
   const { cardId, text } = req.body;
   const comment = await prisma.comment.create({
@@ -23,7 +23,7 @@ commentRouter.post('/', authMiddleware, async (req: AuthenticatedRequest, res: R
   res.status(201).json(comment);
 });
 
-// Update comment
+//update comment
 commentRouter.put('/:id', authMiddleware, async (req: AuthenticatedRequest, res: Response) => {
   const id = Number(req.params.id);
   const { text } = req.body;
@@ -34,7 +34,7 @@ commentRouter.put('/:id', authMiddleware, async (req: AuthenticatedRequest, res:
   res.json(updated);
 });
 
-// Delete comment
+//delete comment
 commentRouter.delete('/:id', authMiddleware, async (req: AuthenticatedRequest, res: Response) => {
   const id = Number(req.params.id);
   await prisma.comment.delete({ where: { id } });

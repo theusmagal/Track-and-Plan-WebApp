@@ -1,6 +1,5 @@
 import express from 'express';
 import dotenv from 'dotenv';
-// import cors from 'cors'; ❌ (You said no CORS)
 
 import registerRouter from './routes/register.route';
 import boardRouter from './routes/board.route';
@@ -8,14 +7,14 @@ import columnRouter from './routes/column.route';
 import cardRouter from './routes/card.route';
 import commentRouter from './routes/comment.route';
 
-// Load environment variables from .env
+// get the variables from .env
 dotenv.config();
 
 const app = express();
 
 app.use(express.json());
 
-// Register all routes
+//register all routes
 app.use('/api/auth', registerRouter);
 app.use('/api/boards', boardRouter);
 app.use('/api/columns', columnRouter);

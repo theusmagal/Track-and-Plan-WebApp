@@ -2,18 +2,19 @@ import express, { Response } from 'express';
 import prisma from '../lib/prisma';
 import { authMiddleware, AuthenticatedRequest } from '../middleware/auth';
 
+// router for columns
 const columnRouter = express.Router();
 
-// Get all columns for a specific board, including cards
+//get all columns for specific board
 columnRouter.get('/:boardId', authMiddleware, async (req: AuthenticatedRequest, res: Response): Promise<void> => {
-  const boardId = Number(req.params.boardId);
+  const boardId = Number(req.params.boardId); //get board ID from the URL
 
   try {
     const columns = await prisma.column.findMany({
       where: {
         boardId,
         board: {
-          userId: req.user!.userId,
+          userId: req.user!.userId, //ensure the board belongs the user
         },
       },
       include: {
@@ -35,14 +36,14 @@ columnRouter.get('/:boardId', authMiddleware, async (req: AuthenticatedRequest, 
       },
     });
 
-    res.json(columns);
+    res.json(columns); //return the columns with cards
   } catch (err) {
     console.error('Error fetching columns:', err);
     res.status(500).json({ error: 'Failed to fetch columns' });
   }
 });
 
-// Create a new column
+//create column
 columnRouter.post('/', authMiddleware, async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   const { title, boardId, order } = req.body;
 
@@ -56,14 +57,15 @@ columnRouter.post('/', authMiddleware, async (req: AuthenticatedRequest, res: Re
       data: { title, boardId, order },
     });
 
-    res.status(201).json(column);
+    res.status(201).json(column); //return created column
   } catch (err) {
     console.error('Error creating column:', err);
     res.status(500).json({ error: 'Failed to create column' });
   }
 });
 
-// Delete a column (cards + comments auto-deleted via cascade)
+//deleting column.. 
+//cards and comments are also deleted by using cascade in schema.prisma
 columnRouter.delete('/:id', authMiddleware, async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   const columnId = Number(req.params.id);
 
@@ -72,16 +74,16 @@ columnRouter.delete('/:id', authMiddleware, async (req: AuthenticatedRequest, re
       where: { id: columnId },
     });
 
-    res.status(204).send();
+    res.status(204).send(); // No content
   } catch (err) {
     console.error('Error deleting column:', err);
     res.status(500).json({ error: 'Failed to delete column' });
   }
 });
 
-// Reorder columns
+//reordering columns as we can drag and drop
 columnRouter.patch('/reorder', authMiddleware, async (req: AuthenticatedRequest, res: Response): Promise<void> => {
-  const { columns } = req.body;
+  const { columns } = req.body; //expects an array of columns
 
   try {
     const updates = await Promise.all(
@@ -97,17 +99,19 @@ columnRouter.patch('/reorder', authMiddleware, async (req: AuthenticatedRequest,
   }
 });
 
-// Update column title
+//updating the title of a column
 columnRouter.put('/:id', authMiddleware, async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   const columnId = Number(req.params.id);
   const { title } = req.body;
 
+  //validate input
   if (!title || typeof title !== 'string') {
     res.status(400).json({ error: 'Title is required' });
     return;
   }
 
   try {
+    //find the column and make sure the board belongs to the user
     const column = await prisma.column.findUnique({
       where: { id: columnId },
       include: { board: true },
@@ -118,6 +122,7 @@ columnRouter.put('/:id', authMiddleware, async (req: AuthenticatedRequest, res: 
       return;
     }
 
+    // update column title
     const updated = await prisma.column.update({
       where: { id: columnId },
       data: { title },

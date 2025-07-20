@@ -3,13 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 
 function Login() {
+  // state to manage login/register tab
   const [tab, setTab] = useState<'login' | 'register'>('login');
+
+  // form fields
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  // reset all form fields
   const resetFields = () => {
     setEmail('');
     setPassword('');
@@ -17,6 +22,7 @@ function Login() {
     setError('');
   };
 
+  // handle login form
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -29,11 +35,13 @@ function Login() {
       });
 
       const data = await res.json();
+
       if (!res.ok) {
         setError(data.error || 'Login failed.');
         return;
       }
 
+      // save token and redirect to dashboard
       localStorage.setItem('token', data.token);
       navigate('/dashboard');
     } catch (err) {
@@ -42,6 +50,7 @@ function Login() {
     }
   };
 
+  // handle registration
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -54,11 +63,13 @@ function Login() {
       });
 
       const data = await res.json();
+
       if (!res.ok) {
         setError(data.error || 'Registration failed.');
         return;
       }
 
+      // save token and redirect to dashboard
       localStorage.setItem('token', data.token);
       setTimeout(() => navigate('/dashboard'), 100);
     } catch (err) {
@@ -70,8 +81,12 @@ function Login() {
   return (
     <>
       <Navbar showLogout={false} />
+
+      {/* main login/register */}
       <div className="flex items-center justify-center h-[calc(100vh-64px)] bg-gray-100">
         <div className="bg-white p-6 rounded shadow-md w-80">
+
+          {/* buttons for switching between login/register */}
           <div className="flex mb-4">
             <button
               onClick={() => {
@@ -93,7 +108,10 @@ function Login() {
             </button>
           </div>
 
+          {/* login or register form */}
           <form onSubmit={tab === 'login' ? handleLogin : handleRegister}>
+
+            {/* name field */}
             {tab === 'register' && (
               <input
                 id="name"
@@ -106,6 +124,8 @@ function Login() {
                 required
               />
             )}
+
+            {/*email input */}
             <input
               id="email"
               name="email"
@@ -117,6 +137,8 @@ function Login() {
               required
               autoComplete="username"
             />
+
+            {/* password input */}
             <input
               id="password"
               name="password"

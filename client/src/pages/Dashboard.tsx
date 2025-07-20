@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Used to redirect user
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import type { DropResult } from '@hello-pangea/dnd';
 import Column from '../components/Column';
@@ -6,19 +7,33 @@ import BoardSelector from '../components/BoardSelector';
 import type { Column as ColumnType } from '../types';
 
 function Dashboard() {
+  //state to hold columns, selected board, and input fields
   const [columns, setColumns] = useState<ColumnType[]>([]);
   const [selectedBoardId, setSelectedBoardId] = useState<number | null>(null);
   const [newColumnTitle, setNewColumnTitle] = useState('');
   const [newBoardTitle, setNewBoardTitle] = useState('');
 
+  const navigate = useNavigate(); 
+
+  //redirect to login page if token is missing
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login'); //redirect if not authenticated
+    }
+  }, [navigate]);
+
+  //fetch boards on first load
   useEffect(() => {
     fetchBoards();
   }, []);
 
+  //Fetch columns whenever selected board changes
   useEffect(() => {
     fetchColumns();
   }, [selectedBoardId]);
 
+  //get all boards from the API
   const fetchBoards = async () => {
     try {
       const res = await fetch('/api/boards', {
@@ -28,13 +43,14 @@ function Dashboard() {
       });
       const data = await res.json();
       if (data.length > 0) {
-        setSelectedBoardId(data[0].id);
+        setSelectedBoardId(data[0].id); 
       }
     } catch (err) {
       console.error('Error fetching boards:', err);
     }
   };
 
+  // Get columns for the selected board
   const fetchColumns = async () => {
     if (!selectedBoardId) return;
     try {
@@ -50,9 +66,9 @@ function Dashboard() {
     }
   };
 
+  //create a new column in the selected board
   const handleAddColumn = async () => {
     if (!newColumnTitle.trim() || selectedBoardId === null) return;
-
     try {
       await fetch('/api/columns', {
         method: 'POST',
@@ -73,9 +89,9 @@ function Dashboard() {
     }
   };
 
+  //create a new board and select it
   const handleCreateBoard = async () => {
     if (!newBoardTitle.trim()) return;
-
     try {
       const res = await fetch('/api/boards', {
         method: 'POST',
@@ -88,15 +104,15 @@ function Dashboard() {
       const board = await res.json();
       setSelectedBoardId(board.id);
       setNewBoardTitle('');
-      window.location.reload();
+      window.location.reload(); 
     } catch (err) {
       console.error('Error creating board:', err);
     }
   };
 
+  //delete selected board
   const handleDeleteBoard = async () => {
     if (!selectedBoardId || !confirm('Are you sure you want to delete this board?')) return;
-
     try {
       await fetch(`/api/boards/${selectedBoardId}`, {
         method: 'DELETE',
@@ -106,12 +122,13 @@ function Dashboard() {
       });
       setSelectedBoardId(null);
       setColumns([]);
-      window.location.reload();
+      window.location.reload(); 
     } catch (err) {
       console.error('Error deleting board:', err);
     }
   };
 
+  //handle drag and drop for both columns and cards
   const handleDragEnd = async (result: DropResult) => {
     const { source, destination, type } = result;
     if (!destination) return;
@@ -122,6 +139,7 @@ function Dashboard() {
       reordered.splice(destination.index, 0, moved);
       setColumns(reordered);
 
+      //update column order in DB
       await fetch('/api/columns/reorder', {
         method: 'PATCH',
         headers: {
@@ -136,6 +154,7 @@ function Dashboard() {
       return;
     }
 
+    //dragging cards betweem columns
     const sourceColId = Number(source.droppableId);
     const destColId = Number(destination.droppableId);
     const sourceCol = columns.find((c) => c.id === sourceColId);
@@ -157,6 +176,7 @@ function Dashboard() {
 
     setColumns(newColumns);
 
+    //send card order updates to backend
     const updates = newColumns.flatMap((col) =>
       col.cards.map((card, index) => ({
         id: card.id,
@@ -175,6 +195,7 @@ function Dashboard() {
     });
   };
 
+  //update card color
   const onLocalCardColorChange = (cardId: number, newColor: string) => {
     setColumns((prev) =>
       prev.map((col) => ({
@@ -186,12 +207,14 @@ function Dashboard() {
     );
   };
 
+  // ---------- UI ----------
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold flex items-center gap-2 mb-4">
         <span role="img" aria-label="clipboard">📋</span> Activities
       </h1>
 
+      {/* board selection and deletion */}
       <div className="flex items-center gap-2 mb-2 flex-wrap">
         <BoardSelector selectedBoardId={selectedBoardId} setSelectedBoardId={setSelectedBoardId} />
         <button onClick={handleDeleteBoard} className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
@@ -199,6 +222,7 @@ function Dashboard() {
         </button>
       </div>
 
+      {/*new board input */}
       <div className="flex gap-2 mb-6 flex-wrap">
         <input
           type="text"
@@ -212,14 +236,17 @@ function Dashboard() {
         </button>
       </div>
 
+      {/*empty state */}
       {!selectedBoardId && (
         <div className="text-center text-gray-500 mt-10">
           Please select or create a board to get started.
         </div>
       )}
 
+      {/*main board */}
       {selectedBoardId && (
         <>
+          {/* add new column */}
           <div className="mb-4 flex gap-2">
             <input
               type="text"
@@ -236,6 +263,7 @@ function Dashboard() {
             </button>
           </div>
 
+          {/* drag-and-drop board */}
           <DragDropContext onDragEnd={handleDragEnd}>
             <Droppable droppableId="columns" direction="horizontal" type="column">
               {(provided) => (

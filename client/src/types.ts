@@ -1,11 +1,13 @@
+
+// details of each card, columns and boards
 export interface Card {
   id: number;
   title: string;
   columnId: number;
   order: number;
-  color?: string;        // ✅ Added this line
-  createdAt?: string;    // ✅ Already included
-  updatedAt?: string;    // ✅ Already included
+  color?: string;        
+  createdAt?: string;   
+  updatedAt?: string;    
 }
 
 export interface Column {
@@ -21,5 +23,5 @@ export interface Board {
   title: string;
   userId: number;
   createdAt: string;
-  columns?: Column[]; // Optional, used when fetched with include: { columns: true }
+  columns?: Column[]; 
 }
