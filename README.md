@@ -44,8 +44,8 @@ Key Features
 Installation and Setup (local)
 
 1. Backend
-cd server
-npm install
+- cd server
+- npm install
 
 Main Packages installed:
 
@@ -70,12 +70,12 @@ Start development:
 npm run dev (configure scripts in package.json).
 
 3. Frontend
-cd client
-npm install
-npm run dev
+- cd client
+- npm install
+- npm run dev
 
-DATABASE_URL=your_railway_postgres_url
-JWT_SECRET=your_secret_key
+[ DATABASE_URL=your_railway_postgres_url
+JWT_SECRET=your_secret_key ]
 
 Main packages installed:
 - React, react-dom and vite – Frontend framework and tools
