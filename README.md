@@ -58,24 +58,25 @@ Main Packages installed:
 - Dotenv – For loading env variables from .env
 
 Prisma installation and setup:
-npx prisma init
+- npx prisma init
 
 Update .env with Railway database URL:
+
+DATABASE_URL=your_railway_postgres_url
+JWT_SECRET=your_secret_key
+
 Check database in Railway or command “npx prisma studio” (opens in the browser).
 
 Run migrations:
-npx prisma migrate dev --name init
+- npx prisma migrate dev --name init
 
 Start development:
-npm run dev (configure scripts in package.json).
+- npm run dev (configure scripts in package.json).
 
 3. Frontend
 - cd client
 - npm install
 - npm run dev
-
-[ DATABASE_URL=your_railway_postgres_url
-JWT_SECRET=your_secret_key ]
 
 Main packages installed:
 - React, react-dom and vite – Frontend framework and tools
