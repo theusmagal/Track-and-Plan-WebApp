@@ -13,7 +13,7 @@ function App() {
 
   useEffect(() => {
     // this way handle updates from other tabs 
-    // (if token is updated/deleted elsewhere)
+    // if token is updated/deleted somewhere
     const handleStorage = () => setToken(localStorage.getItem('token'));
     window.addEventListener('storage', handleStorage);
     const interval = setInterval(() => {
